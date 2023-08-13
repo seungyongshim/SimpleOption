@@ -1,3 +1,5 @@
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 public static class Extension
@@ -6,6 +8,14 @@ public static class Extension
     {
         services.AddOptions<T>()
                 .BindConfiguration(configSessionName)
+                .Validate<IServiceProvider>((x, sp) =>
+                {
+                    var validator = sp.GetRequiredService<IValidator<T>>();
+
+                    var ret = validator.Validate(x);
+
+                    return ret.IsValid;
+                })
                 .ValidateDataAnnotations()
                 .PostConfigure(postAction ?? ((a, b) => { }))
                 .ValidateOnStart();

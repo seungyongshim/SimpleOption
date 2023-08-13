@@ -2,12 +2,9 @@ using ClassLibrary1;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSimpleOptions<App1DbOption>("App1");
-builder.Services.AddSimpleOptions<App2DbOption>("App2");
-builder.Services.AddSimpleOptions<App3DbOption>("App3", (o, sp) =>
-{
-
-});
+builder.Host.UseDatabase<App1DbOption>("App1");
+builder.Host.UseDatabase<App2DbOption>("App2");
+builder.Host.UseDatabase<App3DbOption>("App3");
 
 var app = builder.Build();
 
