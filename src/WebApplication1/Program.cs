@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSimpleOptions<App1DbOption>("App1");
 builder.Services.AddSimpleOptions<App2DbOption>("App2");
-builder.Services.AddSimpleOptions<App3DbOption>("App3", (x, _) =>
+builder.Services.AddSimpleOptions<App3DbOption>("App3", (o, sp) =>
 {
 
 });

@@ -12,8 +12,6 @@ public static class Extension
 
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<T>>().Value);
 
-        
-
         return services;
     }
 }
