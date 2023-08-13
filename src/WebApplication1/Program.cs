@@ -1,26 +1,22 @@
 using ClassLibrary1;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOptions();
-builder.Services.AddOptions<App1DbOption>().BindConfiguration("App1").ValidateDataAnnotations().ValidateOnStart();
-builder.Services.AddOptions<App2DbOption>().BindConfiguration("App2").ValidateDataAnnotations().ValidateOnStart();
-//builder.Services.AddOptions<App3DbOption>().BindConfiguration("App3").ValidateDataAnnotations().ValidateOnStart();
+builder.Services.AddSimpleOptions<App1DbOption>("App1");
+builder.Services.AddSimpleOptions<App2DbOption>("App2");
+builder.Services.AddSimpleOptions<App3DbOption>("App3", (x, _) =>
+{
+
+});
 
 var app = builder.Build();
 
 await app.StartAsync();
 
 
-var ret1 = app.Services.GetRequiredService<IOptions<DbOption>>();
-var ret2 = app.Services.GetRequiredService<IEnumerable<IOptions<DbOption>>>();
-var ret3 = app.Services.GetRequiredService<IOptions<App1DbOption>>();
-var ret4 = app.Services.GetRequiredService<IOptions<App2DbOption>>();
-var ret5 = app.Services.GetRequiredService<IOptions<App3DbOption>>();
-
-IOptions<DbOption> a = ret4;
+var a = app.Services.GetRequiredService<App1DbOption>();
+var b = app.Services.GetRequiredService<App2DbOption>();
+var c = app.Services.GetRequiredService<App3DbOption>();
 
 await app.StopAsync();
 
