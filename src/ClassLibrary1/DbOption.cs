@@ -13,7 +13,7 @@ public record DbOption
     public required string DbConnRW { get; init; }
 }
 
-public static class Extension
+public static class DbOptionExtension
 {
     public static IHostBuilder UseDatabase<TDbOption>(this IHostBuilder host, string configureSessionName) where TDbOption : DbOption
     {
