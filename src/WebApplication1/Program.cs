@@ -3,8 +3,6 @@ using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddSingleton<IValidator<DbOption>, DbOptionValidator>();
-
 builder.Host.UseDatabase<App1DbOption>("App1");
 builder.Host.UseDatabase<App2DbOption>("App2");
 builder.Host.UseDatabase<App3DbOption>("App3");

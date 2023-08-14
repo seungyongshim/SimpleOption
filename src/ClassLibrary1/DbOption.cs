@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace ClassLibrary1;
@@ -18,6 +19,7 @@ public static class Extension
     {
         host.ConfigureServices((ctx, services) =>
         {
+            services.TryAddSingleton<IValidator<DbOption>, DbOptionValidator>();
             services.AddSimpleOptions<TDbOption>(configureSessionName);
         });
 
