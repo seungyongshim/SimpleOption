@@ -10,11 +10,11 @@ public static class Extension
                 .BindConfiguration(configSessionName)
                 .Validate<IServiceProvider>((x, sp) =>
                 {
-                    var validator = sp.GetRequiredService<IValidator<T>>();
+                    var ctx = new ValidationContext<T>(x);
 
-                    var ret = validator.Validate(x);
+                    var validator = GetOptionValidator(x.GetType(), sp);
 
-                    return ret.IsValid;
+                    return validator?.Validate(ctx).IsValid ?? false;
                 })
                 .ValidateDataAnnotations()
                 .PostConfigure(postAction ?? ((a, b) => { }))
@@ -23,6 +23,19 @@ public static class Extension
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<T>>().Value);
 
         return services;
+    }
+
+    public static IValidator? GetOptionValidator(Type t, IServiceProvider sp)
+    {
+        if (t is { Name :"Object"}) return null;
+
+        var validator = sp.GetService(typeof(IValidator<>).MakeGenericType(t));
+
+        return validator switch
+        {
+            IValidator v => v,
+            _            => GetOptionValidator(t.BaseType, sp)
+        };
     }
 }
 
