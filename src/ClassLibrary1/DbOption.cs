@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 namespace ClassLibrary1;
 
 
-public record DbOption
+public abstract record DbOption
 {
     public required string DbConnRO { get; init; }
     public required string DbConnRW { get; init; }
